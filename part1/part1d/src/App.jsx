@@ -1,5 +1,32 @@
 import { useState } from 'react'
 
+
+const Button = ({ handleClick, text }) => {
+	return (
+		<button onClick={handleClick}>
+			{text}
+		</button>
+	)
+}
+
+const History = ({ history_arr }) => {
+	if (history_arr.length === 0) {
+		return (
+			<div>
+				Click buttons
+			</div>
+		)
+	}
+	
+	return (
+		<div>
+			{history_arr.join(' ')}
+		</div>
+	)
+}
+
+
+
 const App = () => {
 	const [left, setLeft] = useState(0)
 	const [right, setRight] = useState(0)
@@ -23,16 +50,10 @@ const App = () => {
 	return (
 		<div>
 			{left}
-			<button onClick={handle_left_click}>
-				Left
-			</button>
-			<button onClick={handle_right_click}>
-				Right
-			</button>
+			<Button handleClick={handle_left_click} text='Left'/>
+			<Button handleClick={handle_right_click} text='Right'/>
 			{right}
-			<p>
-				{allClicks.join(' ')}
-			</p>
+			<History history_arr={allClicks}/>
 			<p>
 				Total: {total}
 			</p>
