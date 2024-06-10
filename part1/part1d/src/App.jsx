@@ -6,6 +6,7 @@ const App = () => {
 		left: 0, right: 0
 	})
 
+	/*
 	const handle_left_click = () => {
 		const amount = {
 			left: clicks.left + 1,
@@ -13,13 +14,22 @@ const App = () => {
 		}
 		setClicks(amount)
 	}
+	*/
+	const handle_left_click = () => {
+		setClicks({ ...clicks, left: clicks.left + 1 })
+	}
 
+	/*
 	const handle_right_click = () => {
 		const amount = {
 			left: clicks.left,
 			right: clicks.right + 1
 		}
 		setClicks(amount)
+	}
+	*/
+	const handle_right_click = () => {
+		setClicks({ ...clicks, right: clicks.right + 1 })
 	}
 	
 	return (
