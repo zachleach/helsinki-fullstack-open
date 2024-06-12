@@ -37,6 +37,14 @@ const StatisticsLine = (props) => {
 	)
 }
 
+const Button = (props) => {
+	return (
+		<button onClick={props.handler}>
+			{props.text}
+		</button>
+	)
+}
+
 const App = () => {
 	const [stats, setStats] = useState({
 		good: 0,
@@ -99,18 +107,11 @@ const App = () => {
 				give feedback
 			</h1>
 
-			<button onClick={onClickGood}>
-				good
-			</button>
-			<button onClick={onClickNeutral}>
-				neutral
-			</button>
-			<button onClick={onClickBad}>
-				bad
-			</button>
+			<Button text="good" handler={onClickGood} />
+			<Button text="neutral" handler={onClickNeutral} />
+			<Button text="bad" handler={onClickBad} />
 
-		<Statistics {...stats}/>
-
+			<Statistics {...stats}/>
 
 		</div>
 	)
