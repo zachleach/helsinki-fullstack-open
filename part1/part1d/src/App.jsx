@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+/* author: @zachleach */
 
 const Statistics = (props) => {
 	if (props.all === 0) {
@@ -17,12 +17,14 @@ const Statistics = (props) => {
 				statistics
 			</h1>
 
-		<StatisticsLine text="good" value={props.good}/>
-		<StatisticsLine text="neutral" value={props.neutral}/>
-		<StatisticsLine text="bad" value={props.bad}/>
-		<StatisticsLine text="all" value={props.all}/>
-		<StatisticsLine text="average" value={props.average}/>
-		<StatisticsLine text="positive" value={props.positive + " %"}/>
+		<table>
+			<StatisticsLine text="good" value={props.good}/>
+			<StatisticsLine text="neutral" value={props.neutral}/>
+			<StatisticsLine text="bad" value={props.bad}/>
+			<StatisticsLine text="all" value={props.all}/>
+			<StatisticsLine text="average" value={props.average}/>
+			<StatisticsLine text="positive" value={props.positive + " %"}/>
+		</table>
 
 		</div>
 	)
@@ -30,10 +32,12 @@ const Statistics = (props) => {
 
 const StatisticsLine = (props) => {
 	return (
-		<div>
-			{props.text} {props.value}
-			<br></br>
-		</div>
+		<tbody>
+			<tr>
+				<td>{props.text}</td>
+				<td>{props.value}</td>
+			</tr>
+		</tbody>
 	)
 }
 
