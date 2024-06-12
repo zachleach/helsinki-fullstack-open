@@ -1,62 +1,81 @@
 import { useState } from 'react'
 
 
-const Button = ({ handleClick, text }) => {
-	return (
-		<button onClick={handleClick}>
-			{text}
-		</button>
-	)
-}
-
-const History = ({ history_arr }) => {
-	if (history_arr.length === 0) {
-		return (
-			<div>
-				Click buttons
-			</div>
-		)
-	}
-	
-	return (
-		<div>
-			{history_arr.join(' ')}
-		</div>
-	)
-}
 
 
 
 const App = () => {
-	const [left, setLeft] = useState(0)
-	const [right, setRight] = useState(0)
-	const [allClicks, setAll] = useState([])
-	const [total, setTotal] = useState(0)
+	const [good, setGood] = useState(0)
+	const [neutral, setNeutral] = useState(0)
+	const [bad, setBad] = useState(0)
+	const [all, setAll] = useState(0)
+	const [average, setAverage] = useState(0.0)
+	const [positive, setPositive] = useState(0.0)
 
-	const handle_left_click = () => {
-		let updated_left = left + 1
-		setLeft(updated_left)
-		setAll(allClicks.concat('L'))
-		setTotal(updated_left + right)
+	const onClickGood = () => {
+		let updated_good = good + 1
+		let updated_all = all + 1
+		setGood(updated_good)
+		setAll(updated_all)
+		setAverage((updated_good - bad) / updated_all)
+		setPositive(updated_good / updated_all)
 	}
-
-	const handle_right_click = () => {
-		let updated_right = right + 1
-		setRight(right + 1)
-		setAll(allClicks.concat('R'))
-		setTotal(left + updated_right)
+	const onClickNeutral = () => {
+		let updated_all = all + 1
+		setNeutral(neutral + 1)
+		setAll(updated_all)
+		setAverage((good - bad) / updated_all)
+		setPositive(good / updated_all)
+	}
+	const onClickBad = () => {
+		let updated_bad = bad + 1
+		let updated_all = all + 1
+		setBad(updated_bad)
+		setAll(updated_all)
+		setAverage((good - updated_bad) / updated_all)
+		setPositive(good / updated_all)
 	}
 
 	return (
 		<div>
-			{left}
-			<Button handleClick={handle_left_click} text='Left'/>
-			<Button handleClick={handle_right_click} text='Right'/>
-			{right}
-			<History history_arr={allClicks}/>
+			<h1>
+				give feedback
+			</h1>
+
+			<button onClick={onClickGood}>
+				good
+			</button>
+			<button onClick={onClickNeutral}>
+				neutral
+			</button>
+			<button onClick={onClickBad}>
+				bad
+			</button>
+
+			<h1>
+				statistics
+			</h1>
+
 			<p>
-				Total: {total}
+				good {good}
+				<br></br>
+
+				neutral {neutral}
+				<br></br>
+
+				bad {bad}
+				<br></br>
+
+				all {all}
+				<br></br>
+
+				average {average}
+				<br></br>
+
+				positive {positive} %
 			</p>
+
+
 		</div>
 	)
 }
