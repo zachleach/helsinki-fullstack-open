@@ -1,39 +1,93 @@
 import { useState } from 'react'
 
 
+const Statistics = (props) => {
+	if (props.all === 0) {
+		return (
+			<div>
+				<p>
+					no feedback given
+				</p>
+			</div>
+		)
+	}
+	return (
+		<div>
+			<h1>
+				statistics
+			</h1>
 
-
+			<p>
+				good {props.good}
+				<br></br>
+				neutral {props.good}
+				<br></br>
+				bad {props.good}
+				<br></br>
+				all {props.all}
+				<br></br>
+				average {props.average}
+				<br></br>
+				positive {props.positive} %
+			</p>
+		</div>
+	)
+}
 
 const App = () => {
-	const [good, setGood] = useState(0)
-	const [neutral, setNeutral] = useState(0)
-	const [bad, setBad] = useState(0)
-	const [all, setAll] = useState(0)
-	const [average, setAverage] = useState(0.0)
-	const [positive, setPositive] = useState(0.0)
+	const [stats, setStats] = useState({
+		good: 0,
+		neutral: 0,
+		bad: 0,
+		all: 0,
+		average: 0.0,
+		positive: 0.0
+	})
 
 	const onClickGood = () => {
-		let updated_good = good + 1
-		let updated_all = all + 1
-		setGood(updated_good)
-		setAll(updated_all)
-		setAverage((updated_good - bad) / updated_all)
-		setPositive(updated_good / updated_all)
+		const upd_good = stats.good + 1
+		const upd_all = stats.all + 1
+		const upd_avg = (upd_good - stats.bad) / upd_all
+		const upd_pos = (upd_good / upd_all) * 100
+
+		setStats({
+			...stats,
+			good: upd_good,
+			all: upd_all,
+			average: upd_avg,
+			positive: upd_pos
+		})
 	}
+
 	const onClickNeutral = () => {
-		let updated_all = all + 1
-		setNeutral(neutral + 1)
-		setAll(updated_all)
-		setAverage((good - bad) / updated_all)
-		setPositive(good / updated_all)
+		const upd_neutral = stats.neutral + 1
+		const upd_all = stats.all + 1
+		const upd_avg = (stats.good - stats.bad) / upd_all
+		const upd_pos = (stats.good / upd_all) * 100
+
+		setStats({
+			...stats,
+			neutral: upd_neutral,
+			all: upd_all,
+			average: upd_avg,
+			positive: upd_pos
+		})
 	}
+
 	const onClickBad = () => {
-		let updated_bad = bad + 1
-		let updated_all = all + 1
-		setBad(updated_bad)
-		setAll(updated_all)
-		setAverage((good - updated_bad) / updated_all)
-		setPositive(good / updated_all)
+		const upd_bad = stats.bad + 1
+		const upd_all = stats.all + 1
+		const upd_avg = (stats.good - upd_bad) / upd_all
+		const upd_pos = (stats.good / upd_all) * 100
+
+		setStats({
+			...stats,
+			bad: upd_bad,
+			all: upd_all,
+			average: upd_avg,
+			positive: upd_pos
+		})
+
 	}
 
 	return (
@@ -52,28 +106,7 @@ const App = () => {
 				bad
 			</button>
 
-			<h1>
-				statistics
-			</h1>
-
-			<p>
-				good {good}
-				<br></br>
-
-				neutral {neutral}
-				<br></br>
-
-				bad {bad}
-				<br></br>
-
-				all {all}
-				<br></br>
-
-				average {average}
-				<br></br>
-
-				positive {positive} %
-			</p>
+		<Statistics {...stats}/>
 
 
 		</div>
