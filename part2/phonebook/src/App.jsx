@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter = ({ state, setFunction }) => {
 	console.log(state)
@@ -74,16 +75,22 @@ const InputForm = ({ persons, setPersons, newName, setNewName, newNumber, setNew
 
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: "040-123456", id: 1 },
-    { name: 'ARTt HELL', number: "10293123", id: 2 },
-    { name: 'artt madasd', number: "123-421-32", id: 3 },
-    { name: 'mike', number: "11111", id: 4 },
-  ]) 
-
+	const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 	const [filter, setFilter] = useState('')
+
+	const hook = () => {
+		console.log('effect')
+		axios
+			.get('http://localhost:3001/persons')
+			.then(response => {
+				console.log('promise fulfilled')
+				setPersons(response.data)
+			})
+	}
+
+	useEffect(hook, [])
 
   return (
     <div>
