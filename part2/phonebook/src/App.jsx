@@ -2,16 +2,26 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: "040-123456", id: 1 },
+    { name: 'ARTt HELL', number: "10293123", id: 2 },
+    { name: 'artt madasd', number: "123-421-32", id: 3 },
+    { name: 'mike', number: "11111", id: 4 },
   ]) 
 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
-	{/* input monitor */}
-	const handleNameSubmission = (event) => {
+	{/* input monitors */}
+	const handleNameInputChange = (event) => {
 		console.log(event.target.value)
 		setNewName(event.target.value)
 	}
+	const handleNumberInputChange = (event) => {
+		console.log(event.target.value)
+		setNewNumber(event.target.value)
+	}
+
+
 
 	{/* form submit function */ }
 	const addName = (event) => {
@@ -22,10 +32,13 @@ const App = () => {
 		}
 		else {
 			const p = {
-				name: newName
+				name: newName,
+				number: newNumber,
+				id: persons.length
 			}
 			setPersons(persons.concat(p))
 			setNewName('')
+			setNewNumber('')
 		}
 	}
 
@@ -50,9 +63,17 @@ const App = () => {
 					{/* keep track of text within the input box */}
           name: <input 
 						value={newName}
-						onChange={handleNameSubmission}
+						onChange={handleNameInputChange}
 					/>
         </div>
+        <div>
+					{/* keep track of text within the input box */}
+          number: <input 
+						value={newNumber}
+						onChange={handleNumberInputChange}
+					/>
+        </div>
+
 
         <div>
           <button type="submit">
@@ -65,12 +86,10 @@ const App = () => {
 				Numbers
 			</h2>
 
-		{/* display the persons[] state array, each value wrapped in a div */}
-		<ul>
+			{/* display the persons[] state array, each value wrapped in a div */}
 			{persons.map((person) => 
-				<div key={person.name}>{person.name}</div>
+				<div key={person.name}>{person.name} {person.number}</div>
 			)}
-		</ul>
 
     </div>
   )
