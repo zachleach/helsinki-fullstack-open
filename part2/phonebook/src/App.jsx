@@ -16,14 +16,26 @@ const App = () => {
 	{/* form submit function */ }
 	const addName = (event) => {
 		event.preventDefault()
-
-		const p = {
-			name: newName
+		const found = persons.find(p => p.name === newName)
+		if (found) {
+			alert(`${found.name} is already added to the phonebook`)
 		}
-
-		setPersons(persons.concat(p))
-		setNewName('')
+		else {
+			const p = {
+				name: newName
+			}
+			setPersons(persons.concat(p))
+			setNewName('')
+		}
 	}
+
+
+
+
+
+
+
+
 
   return (
     <div>
