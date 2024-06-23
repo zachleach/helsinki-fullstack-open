@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/personService'
 
 const Filter = ({ state, setFunction }) => {
 	console.log(state)
@@ -13,20 +14,40 @@ const Filter = ({ state, setFunction }) => {
 	)
 }
 
-const Persons = ({ peopleArray, filterInput }) => {
-	const filtered_people = peopleArray.filter(p => p.name.toLowerCase().includes(filterInput.toLowerCase()))
+const Persons = ({ peopleArray, setPersons, filterInput }) => {
+	const filtered_people = peopleArray.filter(p => 
+		p.name.toLowerCase().includes(filterInput.toLowerCase())
+	)
+
+	/* 2.14 add a method for deleting users from the list */
+	const deleteHandler = (id) => {
+		{/* delete person's record from database */}
+		personService
+			.deletePerson(id)
+			.then(response => {
+				console.log(response)
+				{/* update the people state array being rendered on the screen */}
+				setPersons(peopleArray.filter(person => person.id !== id))
+			})
+	}
+
 	return (
 		<div>
 			{filtered_people.map((person) => 
-				<div key={person.name}>{person.name} {person.number}</div>
-			)}
+				<div key={person.name}>
+					{person.name} 
+					{person.number}
+					<button onClick={() => deleteHandler(person.id)}> 
+						delete
+					</button>
+				</div>
+				)}
 		</div>
 	)
 }
 
 const InputForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
-	
-	{/* form submit function */ }
+	{/* form submit function */}
 	const addName = (event) => {
 		event.preventDefault()
 		const found = persons.find(p => p.name === newName)
@@ -37,11 +58,15 @@ const InputForm = ({ persons, setPersons, newName, setNewName, newNumber, setNew
 			const p = {
 				name: newName,
 				number: newNumber,
-				id: persons.length
+				id: persons.length + 1 + ""
 			}
 			setPersons(persons.concat(p))
 			setNewName('')
 			setNewNumber('')
+
+			{/* 2.12 post request new person to json-server */}
+			{/* 2.13 refactor project to use the service */}
+			personService.create(p)
 		}
 	}
 
@@ -80,16 +105,18 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 	const [filter, setFilter] = useState('')
 
+	/* read the database into persons[] on initial render */
 	const hook = () => {
-		console.log('effect')
-		axios
-			.get('http://localhost:3001/persons')
+		const data = personService.getAll()
+		console.log(data)
+
+		{/* 2.13 use the personService to interface with axios */}
+		personService
+			.getAll()
 			.then(response => {
-				console.log('promise fulfilled')
-				setPersons(response.data)
+				setPersons(response)
 			})
 	}
-
 	useEffect(hook, [])
 
   return (
@@ -107,7 +134,7 @@ const App = () => {
       <h2>
 				Numbers
 			</h2>
-			<Persons peopleArray={persons} filterInput={filter} />
+			<Persons peopleArray={persons} setPersons={setPersons} filterInput={filter} />
 
     </div>
   )

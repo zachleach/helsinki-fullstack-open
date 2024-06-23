@@ -1,7 +1,4 @@
-src:
-components/
 App.jsx
 main.jsx
 
-src/components:
 Note.jsx

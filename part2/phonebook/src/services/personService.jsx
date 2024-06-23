@@ -1,4 +1,4 @@
-/* 2.12 refactor the server logic into a service component */
+/* 2.13 refactor the server logic into a service component */
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/persons'
 
@@ -20,9 +20,11 @@ const update = () => {
 	return request.then(response => response.data)
 }
 
-/* 2.13 add a method for deleting persons from the list */
+/* 2.14 add a method for deleting persons from the list */
 const deletePerson = (id) => {
-	const request = axios.delete(`${baseUrl}/${id}`, newObj)
+	const url = `${baseUrl}/${id}`
+	const request = axios.delete(url)
+	console.log(url)
 	return request.then(response => response.data)
 }
 
