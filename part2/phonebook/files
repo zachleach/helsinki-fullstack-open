@@ -1,4 +1,9 @@
-App.jsx
-main.jsx
+src/App.jsx
+src/main.jsx
 
-Note.jsx
+src/index.css
+
+Filter.jsx
+InputForm.jsx
+Notification.jsx
+Persons.jsx
