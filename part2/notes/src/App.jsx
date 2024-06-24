@@ -18,7 +18,10 @@ const App = () => {
   }
 	useEffect(hook, [])
 
-  console.log('render', notes.length, 'notes')
+	
+  const toggleImportanceOf = (id) => {
+    console.log(`importance of ${id} needs to be toggled`)
+  }
 
 	const addNote = (event) => {
 		event.preventDefault()
@@ -28,8 +31,14 @@ const App = () => {
 			id: notes.length + 1
 		}
 
-		setNotes(notes.concat(n))
-		setNewNote('')
+		axios
+			.post('http://localhost:3001/notes', n)
+			.then(response => {
+				console.log(response)
+				setNotes(notes.concat(n))
+				setNewNote('')
+    })
+
 	}
 
 	const handleNoteSubmit = (event) => {
@@ -55,7 +64,7 @@ const App = () => {
 
 			<ul>
 				{notesToShow.map((note) => 
-					<Note key={note.id} note={note} />
+					<Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
 				)}
 			</ul>
 
