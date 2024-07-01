@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let people = [
     { 
       "id": "1",
@@ -55,11 +57,30 @@ app.get('/api/persons/:id', (request, response) => {
 /* 3.4: add a route for deleting /api/persons/:id */
 app.delete('/api/persons/:id', (request, response) => {
 	const id = request.params.id
-
 	people = people.filter(person => person.id !== id)
 
 	response.json(people)
 })
+
+
+/* 3.5: add a route for post requests to /api/persons */
+app.post('/api/persons', (request, response) => {
+	const new_id = String(Math.ceil(Math.random() * 100000000000))
+	console.log(request.body)
+
+	const new_person = {
+		id: new_id,
+		name: request.body.name,
+		number: request.body.number
+	}
+
+	people = people.concat(new_person)
+	response.json(people)
+})
+
+
+
+
 
 
 const PORT = 3001
