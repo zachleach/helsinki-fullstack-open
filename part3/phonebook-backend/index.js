@@ -52,6 +52,14 @@ app.get('/api/persons/:id', (request, response) => {
 	response.json(person)
 })
 
+/* 3.4: add a route for deleting /api/persons/:id */
+app.delete('/api/persons/:id', (request, response) => {
+	const id = request.params.id
+
+	people = people.filter(person => person.id !== id)
+
+	response.json(people)
+})
 
 
 const PORT = 3001
