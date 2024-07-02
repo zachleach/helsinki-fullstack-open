@@ -74,14 +74,20 @@ app.post('/api/persons', (request, response) => {
 	const new_id = String(Math.ceil(Math.random() * 100000000000))
 	const body = request.body
 
-	/* 3.6: the request is not allowed to succeed if name or number is missing */
+	/* 3.6: the request is not allowed to succeed if name is missing */
 	if (body.name === undefined) {
 		return response.status(400).json({ error: "name is missing" })
 	}
 
-	/* 3.6: the request is not allowed to succeed if name or number is missing */
+	/* 3.6: the request is not allowed to succeed if number is missing */
 	if (body.number === undefined) {
 		return response.status(400).json({ error: "number is missing" })
+	}
+
+	/* 3.6: the request is not allowed to succed if the name already exists */
+	const exists = people.some(p => p.name === body.name)
+	if (exists) {
+		return response.status(400).json({ error: "name must be unique" })
 	}
 
 	const new_person = {
