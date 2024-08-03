@@ -45,16 +45,21 @@ const Total = ({ parts }) => {
 
 
 const Course = ({ course }) => {
+	/* 2.3 compute the sum using array#reduce()  */
+	const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
+
 	return (
 		<div>
 			<Header course={course.name}/>
 			<Content parts={course.parts}/>
 			<Total parts={course.parts}/>
+			{/* 2.2 also show the sum of the exercises of the course */}
+			<h4>
+				Total of {total} exercises
+			</h4>
 		</div>
 	)
 }
-
-
 
 
 /* 1.1 create a react app to display course information */
@@ -88,6 +93,7 @@ const App = () => {
     <div>
 			{/* 2.1 define a component responsible for formatting a single course object */}
 			<Course course={course}/>
+
     </div>
   )
 }
