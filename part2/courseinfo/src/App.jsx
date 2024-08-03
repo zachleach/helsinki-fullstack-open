@@ -13,9 +13,8 @@ const Header = ({ course }) => {
 const Content = ({ parts }) => {
 	return (
 		<div>
-			<Part {...parts[0]}/>
-			<Part {...parts[1]}/>
-			<Part {...parts[2]}/>
+			{/* 2.1 courses can have an arbitrary number of parts */}
+			{parts.map(part => (<Part key={part.id} {...part} />))}
 		</div>
 	)
 }
@@ -38,31 +37,22 @@ const Total = ({ parts }) => {
 
 	return (
 		<div>
-			<p>
-				Number of exercises = {total} 
-			</p>
-		</div>
-	)
-}
-
-
-const Course = ({ course }) => {
-	/* 2.3 compute the sum using array#reduce()  */
-	const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
-
-	return (
-		<div>
-			<Header course={course.name}/>
-			<Content parts={course.parts}/>
-			<Total parts={course.parts}/>
-			{/* 2.2 also show the sum of the exercises of the course */}
 			<h4>
-				Total of {total} exercises
+				Number of exercises = {total} 
 			</h4>
 		</div>
 	)
 }
 
+const Course = ({ course }) => {
+	return (
+		<div>
+			<Header course={course.name}/>
+			<Content parts={course.parts}/>
+			<Total parts={course.parts}/>
+		</div>
+	)
+}
 
 /* 1.1 create a react app to display course information */
 const App = () => {
