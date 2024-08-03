@@ -13,16 +13,32 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const [selected, setSelected] = useState(0)
+  const [selected, set_selected] = useState(0)
+	const [votes, set_votes] = useState(Array(anecdotes.length).fill(0))
+
+	/* 1.13* expand the application so that you can vote for a displayed anecdote */
+	const handle_vote = () => {
+		const copy = [...votes]
+		copy[selected] += 1
+		set_votes(copy)
+	}
 
   return (
     <div>
 			<div>
 				{anecdotes[selected]}
 			</div>
+			
+			{/* 1.13* expand the application so that you can vote for a displayed anecdote */}
+			<div>
+				Has {votes[selected]} votes
+			</div>
+			<button onClick={() => handle_vote()}>
+				vote
+			</button>
 
 			{/* 1.12* add a button that can be clicked to generate a random anecdote */}
-			<button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))}>
+			<button onClick={() => set_selected(Math.floor(Math.random() * anecdotes.length))}>
 				next anecdote
 			</button>
     </div>
