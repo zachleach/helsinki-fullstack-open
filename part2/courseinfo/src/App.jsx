@@ -1,3 +1,9 @@
+const Course = ({ course }) => {
+	return (
+
+	)
+}
+
 const App = () => {
   const course = {
     id: 1,
