@@ -23,9 +23,15 @@ const App = () => {
 		set_votes(copy)
 	}
 
+	/* 1.14* implement final version of the app that displays the anecdote with the largest number of votes */
+	const index_most_votes = votes.indexOf(Math.max(...votes))
+
   return (
     <div>
 			<div>
+				<h1>
+					Anecdote of the day
+				</h1>
 				{anecdotes[selected]}
 			</div>
 			
@@ -41,6 +47,14 @@ const App = () => {
 			<button onClick={() => set_selected(Math.floor(Math.random() * anecdotes.length))}>
 				next anecdote
 			</button>
+
+			{/* 1.14* implement final version of the app that displays the anecdote with the largest number of votes */}
+			<div>
+				<h1>
+					Anecdote with most votes
+				</h1>
+				{anecdotes[index_most_votes]}
+			</div>
     </div>
   )
 }
