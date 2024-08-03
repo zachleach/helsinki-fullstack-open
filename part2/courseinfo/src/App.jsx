@@ -33,7 +33,9 @@ const Part = ({ name, exercises }) => {
 
 /* 1.1 display content, header, and total as separate components */ 
 const Total = ({ parts }) => {
-	const total = parts[0].exercises + parts[1].exercises + parts[2].exercises
+	/* 2.3 compute the sum using array#reduce()  */
+	const total = parts.reduce((sum, part) => sum + part.exercises, 0)
+
 	return (
 		<div>
 			<p>
@@ -64,36 +66,57 @@ const Course = ({ course }) => {
 
 /* 1.1 create a react app to display course information */
 const App = () => {
-	/* 1.5 refactor course data into a single object; fix everything that breaks. */
-	const course = {
-		id: 1,
-		name: 'Half Stack application development',
-		/* 1.4 group parts into an array; fix everything that breaks. */
-		/* 1.3 group part data into objects; fix everything that breaks. */
-		parts: [
-			{ 
-				id: 1,
-				name: 'Fundamentals of React',
-				exercises: 10
-			},
-			{
-				id: 2,
-				name: 'Using props to pass data',
-				exercises: 7
-			},
-			{ 
-				id: 3,
-				name: 'State of a component',
-				exercises: 14
-			}
-		]
-	}
+
+	/* 2.4 extend the application to allow for an arbitrary number of courses */
+	const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+	]
 
   return (
     <div>
-			{/* 2.1 define a component responsible for formatting a single course object */}
-			<Course course={course}/>
-
+			{/* 2.4 extend the application to allow for an arbitrary number of courses */}
+			{courses.map(course => (<Course key={course.id} course={course} />))}
     </div>
   )
 }
