@@ -26,4 +26,12 @@ const update = (id, new_obj) => {
 	) 
 }
 
-export default { getAll, create, update }
+const _delete = (_id) => {
+	return (
+		axios
+			.delete(`${baseUrl}/${_id}`)
+			.then(res => res.data)
+	)
+}
+
+export default { getAll, create, _delete, update }
