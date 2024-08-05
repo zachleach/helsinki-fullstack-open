@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/personService'
 
 /* 2.10 extract three components from the application */
 const InputState = ({ state, set_state }) => {
@@ -15,11 +15,9 @@ const App = () => {
 	/* 2.11 the initial state of the application is fetched from json-server */
   const [phonebook, set_phonebook] = useState([]) 
 	useEffect(() => {
-		axios
-			.get('http://localhost:3001/persons')
-			.then(res => {
-				set_phonebook(res.data)
-			})
+		personService.getAll().then(data => {
+			set_phonebook(data)
+		})
 	}, [])
 
 	/* 2.8 expand application to allow users to add phone numbers */
@@ -42,13 +40,11 @@ const App = () => {
 		}
 
 		/* 2.12 make numbers added to phonebook save to json-server */
-		axios
-			.post('http://localhost:3001/persons', new_person)
-			.then(res => {
-				set_phonebook(phonebook.concat(new_person))
-				set_name_input_field('')
-				set_number_input_field('')
-			})
+		personService.create(new_person).then(data => {
+			set_phonebook(phonebook.concat(new_person))
+			set_name_input_field('')
+			set_number_input_field('')
+		})
 	}
 
 	/* 2.9* implement a search field that can be used to filter the list of people displayed by name */
