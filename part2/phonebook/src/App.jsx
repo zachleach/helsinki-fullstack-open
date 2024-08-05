@@ -38,14 +38,17 @@ const App = () => {
 
 		const new_person = {
 			name: name_input_field,
-			/* 2.8 expand application to allow users to add phone numbers */
 			number: number_input_field
 		}
 
-		set_phonebook(phonebook.concat(new_person))
-		set_name_input_field('')
-		/* 2.8 expand application to allow users to add phone numbers */
-		set_number_input_field('')
+		/* 2.12 make numbers added to phonebook save to json-server */
+		axios
+			.post('http://localhost:3001/persons', new_person)
+			.then(res => {
+				set_phonebook(phonebook.concat(new_person))
+				set_name_input_field('')
+				set_number_input_field('')
+			})
 	}
 
 	/* 2.9* implement a search field that can be used to filter the list of people displayed by name */
