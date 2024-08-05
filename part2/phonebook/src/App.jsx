@@ -26,24 +26,16 @@ const Form = ({ phonebook, set_phonebook }) => {
 		set_number_input_field('')
 	}
 
-	const handle_name_input_change = (event) => {
-		set_name_input_field(event.target.value)
-	}
-
-	const handle_number_input_change = (event) => {
-		set_number_input_field(event.target.value)
-	}
-
 	return (
 		<form onSubmit={handle_submit}>
 			<div>
 				name: 
-				<input value={name_input_field} onChange={handle_name_input_change}/>
+				<InputState state={name_input_field} set_state={set_name_input_field} />
 			</div>
 			{/* 2.8 expand application to allow users to add phone numbers */}
 			<div>
 				number: 
-				<input value={number_input_field} onChange={handle_number_input_change}/>
+				<InputState state={number_input_field} set_state={set_number_input_field} />
 			</div>
 			<div>
 				<button type="submit">
@@ -51,6 +43,17 @@ const Form = ({ phonebook, set_phonebook }) => {
 				</button>
 			</div>
 		</form>
+	)
+}
+
+
+/* 2.10 extract three components from the application */
+const InputState = ({ state, set_state }) => {
+	const handle_input_change = (event) => {
+		set_state(event.target.value)
+	}
+	return (
+		<input value={state} onChange={handle_input_change} />
 	)
 }
 
@@ -82,7 +85,7 @@ const App = () => {
 			{/* 2.9* implement a search field that can be used to filter the list of people displayed by name */}
 			<div>
 				filter shown with 
-				<input value={filter_input_field} onChange={handle_filter_input_change} />
+				<InputState state={filter_input_field} set_state={set_filter_input_field} />
 			</div>
 
 			<h2>
