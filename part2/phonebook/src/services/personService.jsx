@@ -26,7 +26,7 @@ const update = (id, new_obj) => {
 	) 
 }
 
-const _delete = (_id) => {
+const remove = (_id) => {
 	return (
 		axios
 			.delete(`${baseUrl}/${_id}`)
@@ -34,4 +34,4 @@ const _delete = (_id) => {
 	)
 }
 
-export default { getAll, create, _delete, update }
+export default { getAll, create, remove, update }

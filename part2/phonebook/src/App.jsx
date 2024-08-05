@@ -26,7 +26,7 @@ const DeleteButton = ({ state_array, set_state_array, id, confirmation_msg }) =>
 		const found = state_array.find(item => item.id === id)
 		/* 2.14: deletion should be confirmed with an alert message */
 		if (found && window.confirm(confirmation_msg)) {
-			personService._delete(found.id).then(data => {
+			personService.remove(found.id).then(data => {
 				const new_arr = state_array.filter(item => item.id !== id)
 				set_state_array(new_arr)
 			})
