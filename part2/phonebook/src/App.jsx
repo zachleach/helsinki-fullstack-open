@@ -53,7 +53,6 @@ const App = () => {
       <h2>
 				Phonebook
 			</h2>
-				
 			{/* 2.9* implement a search field that can be used to filter the list of people displayed by name */}
 			<div>
 				filter shown with 
@@ -63,7 +62,6 @@ const App = () => {
 			<h2>
 				Add a new
 			</h2>
-
 			{/* 2.6 implement functionality for adding items to the phonebook */}
 			<form onSubmit={handle_form_submit}>
 				<div>
