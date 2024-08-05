@@ -10,8 +10,6 @@ const InputState = ({ state, set_state }) => {
 	)
 }
 
-
-
 const App = () => {
   const [phonebook, set_phonebook] = useState([
     { 
@@ -25,7 +23,7 @@ const App = () => {
 
 	/* 2.6 implement functionality for adding items to the phonebook */
   const [name_input_field, set_name_input_field] = useState('')
-	const handle_submit = (event) => {
+	const handle_form_submit = (event) => {
 		event.preventDefault()
 
 		/* 2.7 alert and prevent users from inputting names already in the phonebook */
@@ -46,15 +44,9 @@ const App = () => {
 		set_number_input_field('')
 	}
 
-
 	/* 2.9* implement a search field that can be used to filter the list of people displayed by name */
 	const [filter_input_field, set_filter_input_field] = useState('')
-	const handle_filter_input_change = (event) => {
-		set_filter_input_field(event.target.value)
-	}
-
 	const filtered_phonebook = phonebook.filter(obj => obj.name.toUpperCase().includes(filter_input_field.toUpperCase()))
-
 
   return (
     <div>
@@ -73,7 +65,7 @@ const App = () => {
 			</h2>
 
 			{/* 2.6 implement functionality for adding items to the phonebook */}
-			<form onSubmit={handle_submit}>
+			<form onSubmit={handle_form_submit}>
 				<div>
 					name: 
 					<InputState state={name_input_field} set_state={set_name_input_field} />
