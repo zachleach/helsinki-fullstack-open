@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 /* 2.10 extract three components from the application */
 const InputState = ({ state, set_state }) => {
@@ -11,12 +12,15 @@ const InputState = ({ state, set_state }) => {
 }
 
 const App = () => {
-  const [phonebook, set_phonebook] = useState([
-    { 
-			name: 'Arto Hellas',
-			number: '1'
-		}
-  ]) 
+	/* 2.11 the initial state of the application is fetched from json-server */
+  const [phonebook, set_phonebook] = useState([]) 
+	useEffect(() => {
+		axios
+			.get('http://localhost:3001/persons')
+			.then(res => {
+				set_phonebook(res.data)
+			})
+	}, [])
 
 	/* 2.8 expand application to allow users to add phone numbers */
   const [number_input_field, set_number_input_field] = useState('')
