@@ -27,12 +27,10 @@ const Form = ({ phonebook, set_phonebook }) => {
 	}
 
 	const handle_name_input_change = (event) => {
-		console.log(event.target.value)
 		set_name_input_field(event.target.value)
 	}
 
 	const handle_number_input_change = (event) => {
-		console.log(event.target.value)
 		set_number_input_field(event.target.value)
 	}
 
@@ -56,6 +54,8 @@ const Form = ({ phonebook, set_phonebook }) => {
 	)
 }
 
+
+
 const App = () => {
   const [phonebook, set_phonebook] = useState([
     { 
@@ -64,10 +64,29 @@ const App = () => {
 		}
   ]) 
 
+	/* 2.9* implement a search field that can be used to filter the list of people displayed by name */
+	const [filter_input_field, set_filter_input_field] = useState('')
+	const handle_filter_input_change = (event) => {
+		set_filter_input_field(event.target.value)
+	}
+
+	const filtered_phonebook = phonebook.filter(obj => obj.name.toUpperCase().includes(filter_input_field.toUpperCase()))
+
+
   return (
     <div>
       <h2>
 				Phonebook
+			</h2>
+				
+			{/* 2.9* implement a search field that can be used to filter the list of people displayed by name */}
+			<div>
+				filter shown with 
+				<input value={filter_input_field} onChange={handle_filter_input_change} />
+			</div>
+
+			<h2>
+				Add a new
 			</h2>
 
 			{/* 2.6 implement functionality for adding items to the phonebook */}
@@ -78,7 +97,7 @@ const App = () => {
 			</h2>
 			{/* 2.6 display the items in the phonebook */}
 			<div>
-				{phonebook.map(item => (
+				{filtered_phonebook.map(item => (
 					<div key={item.name}>
 						{item.name} {item.number}
 					</div>
