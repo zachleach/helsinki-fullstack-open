@@ -58,7 +58,8 @@ const App = () => {
 		event.preventDefault()
 
 		/* 2.7: alert and prevent users from inputting names already in the phonebook */
-		if (phonebook.find(obj => obj.name === name_input_field)) {
+		const found = phonebook.find(obj => obj.name === name_input_field)
+		if (found && found.number === number_input_field) {
 			window.alert(`${name_input_field} already in phonebook!`)
 			return
 		}
@@ -68,12 +69,26 @@ const App = () => {
 			number: number_input_field
 		}
 
-		/* 2.12: make numbers added to phonebook save to json-server */
-		personService.create(new_person).then(data => {
-			set_phonebook(phonebook.concat(new_person))
-			set_name_input_field('')
-			set_number_input_field('')
-		})
+		/* 2.15*: if a number is added to a pre-existing user, update the number */
+		if (found && found.number !== number_input_field) {
+			/* 2.15*: ask the user to confirm the put operation */
+			window.alert(`${name_input_field} is already in the phonebook, replace the old number with a new one?`)
+			// http put request + modify existing_object.number in array
+			personService.update(found.id, new_person).then(res => {
+				found.number = number_input_field
+				set_name_input_field('')
+				set_number_input_field('')
+			})
+		}
+		/* 2.12: make (new) numbers added to phonebook save to json-server */
+		else {
+			// http post request + add new object to array
+			personService.create(new_person).then(data => {
+				set_phonebook(phonebook.concat(new_person))
+				set_name_input_field('')
+				set_number_input_field('')
+			})
+		}
 	}
 
 	/* 2.9*: implement a search field that can be used to filter the list of people displayed by name */

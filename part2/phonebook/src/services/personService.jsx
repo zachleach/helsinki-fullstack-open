@@ -26,10 +26,10 @@ const update = (id, new_obj) => {
 	) 
 }
 
-const remove = (_id) => {
+const remove = (id) => {
 	return (
 		axios
-			.delete(`${baseUrl}/${_id}`)
+			.delete(`${baseUrl}/${id}`)
 			.then(res => res.data)
 	)
 }
