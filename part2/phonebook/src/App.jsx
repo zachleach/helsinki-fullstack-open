@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import personService from './services/personService'
+import './index.css'
 
 /**
  * Input element that modifies @state using @set_state on input change event.
- *
  * 2.10: extract three components from the application
  *
  */
@@ -16,31 +16,26 @@ const InputState = ({ state, set_state }) => {
 	)
 }
 
-/**
- * Button that deletes an object with object.id === @id from @state_array with @set_state_array if user confirms window.confirm(@confirmation_msg).
- * Changes are reflected in json-server database.
- *
- */
-const DeleteButton = ({ state_array, set_state_array, id, confirmation_msg }) => {
-	const handle_click = () => {
-		const found = state_array.find(item => item.id === id)
-		/* 2.14: deletion should be confirmed with an alert message */
-		if (found && window.confirm(confirmation_msg)) {
-			personService.remove(found.id).then(data => {
-				const new_arr = state_array.filter(item => item.id !== id)
-				set_state_array(new_arr)
-			})
-		}
-	}
-
+const Notification = ({ msg }) => {
 	return (
-		<button onClick={handle_click}>
-			delete
-		</button>
+		<div className='notification'>
+			{msg}
+		</div>
 	)
 }
 
+
+
 const App = () => {
+	/* 2.16: show a notification that lasts a few seconds after a successful operation is executed */
+	const [notification, set_notification] = useState(null)
+	const display_notification = (msg, time_ms=2500) => {
+		set_notification(msg)
+		setTimeout(() => {
+			set_notification(null)
+		}, time_ms)
+	}
+
 	/* 2.11: the initial state of the application is fetched from json-server */
   const [phonebook, set_phonebook] = useState([]) 
 	useEffect(() => {
@@ -78,6 +73,8 @@ const App = () => {
 				found.number = number_input_field
 				set_name_input_field('')
 				set_number_input_field('')
+				/* 2.16: show a notification that lasts a few seconds after a successful operation is executed */
+				display_notification(`Updated ${new_person.name}'s number to ${number_input_field}!`)
 			})
 		}
 		/* 2.12: make (new) numbers added to phonebook save to json-server */
@@ -87,6 +84,20 @@ const App = () => {
 				set_phonebook(phonebook.concat(new_person))
 				set_name_input_field('')
 				set_number_input_field('')
+				/* 2.16: show a notification that lasts a few seconds after a successful operation is executed */
+				display_notification(`Added ${new_person.name} to phonebook!`)
+			})
+		}
+	}
+
+	const handle_delete_button_click = (person) => {
+		/* 2.14: deletion should be confirmed with an alert message */
+		if (window.confirm(`are you sure you want to delete ${person.name} from the phonebook?`)) {
+			// http delete request + remove from phonebook array
+			personService.remove(person.id).then(data => {
+				const new_arr = phonebook.filter(item => item.id !== person.id)
+				set_phonebook(new_arr)
+				display_notification(`Removed ${person.name} from phonebook!`)
 			})
 		}
 	}
@@ -100,6 +111,9 @@ const App = () => {
       <h2>
 				Phonebook
 			</h2>
+
+			<Notification msg={notification}/>
+
 			{/* 2.9*: implement a search field that can be used to filter the list of people displayed by name */}
 			<div>
 				filter shown with 
@@ -137,11 +151,10 @@ const App = () => {
 						{item.name} 
 						{item.number} 
 						{/* 2.14: each person in the phonebook list should have a delete button */}
-						<DeleteButton 
-							state_array={phonebook} 
-							set_state_array={set_phonebook} 
-							id={item.id} 
-							confirmation_msg={`are you sure you want to delete ${item.name} from the phonebook?`}/>
+						<button onClick={() => handle_delete_button_click(item)}>
+							delete
+						</button>
+
 					</div>
 				))}
 			</div>
