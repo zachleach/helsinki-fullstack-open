@@ -30,12 +30,12 @@ app.get('/', (req, res) => {
 	res.send('Hello World!')
 })
 
-/* 3.1 return a hardcoded list of phonebook entries from address http://localhost:3001/api/persons */
+/* 3.1: return a hardcoded list of phonebook entries from address http://localhost:3001/api/persons */
 app.get('/api/persons', (req, res) => {
 	res.json(data)
 })
 
-/* 3.2 add route that displays number of people in the phonebook with the date and time */
+/* 3.2: add route that displays number of people in the phonebook with the date and time */
 app.get('/info', (req, res) => {
 	const info = `
 		<p>
@@ -48,6 +48,12 @@ app.get('/info', (req, res) => {
 	res.send(info)
 })
 
+/* 3.3: implement functionality for displaying the information for a single phonebook entry */
+app.get('/api/persons/:id', (req, res) => {
+	const id = req.params.id
+	const found = data.find(obj => obj.id == id)
+	res.json(found)
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
