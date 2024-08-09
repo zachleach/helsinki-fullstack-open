@@ -72,8 +72,30 @@ app.delete('/api/persons/:id', (req, res) => {
 /* 3.5: make it possible to add entries with HTTP POST */
 app.post('/api/persons/', (req, res) => {
 	const post_obj = req.body
+
+	/* 3.6: don't allow requests with missing names or numbers */
+	if (!('name' in post_obj)) {
+		res.status(400).json({
+			error: 'Missing name'
+		})
+		return
+	}
+	if (!('number' in post_obj)) {
+		res.status(400).json({
+			error: 'Missing number'
+		})
+		return
+	}
+	/* 3.7: don't allow requests with names already in phonebook */
+	if (data.find(obj => obj.name === post_obj.name)) {
+		res.status(400).json({
+			error: 'Name must be unique'
+		})
+		return
+	}
+
 	post_obj.id = Math.floor(Math.random() * 100000)
-	data.concat(post_obj)
+	data = data.concat(post_obj)
 	res.json(post_obj)
 })
 
