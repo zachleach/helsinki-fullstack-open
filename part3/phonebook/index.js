@@ -35,6 +35,20 @@ app.get('/api/persons', (req, res) => {
 	res.json(data)
 })
 
+/* 3.2 add route that displays number of people in the phonebook with the date and time */
+app.get('/info', (req, res) => {
+	const info = `
+		<p>
+			Phonebook has info for ${data.length} people
+		</p>
+		<p>
+			${new Date()}
+		</p>
+	`
+	res.send(info)
+})
+
+
 const PORT = 3001
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
