@@ -55,6 +55,22 @@ app.get('/api/persons/:id', (req, res) => {
 	res.json(found)
 })
 
+/* 3.4: implement functionality for deleting a single phonebook entry by id */
+app.delete('/api/persons/:id', (req, res) => {
+	const id = req.params.id
+	const found = data.find(obj => obj.id == id)
+
+	if (found) {
+		data = data.filter(obj => obj.id !== id)
+		res.json(found)
+	}
+	else {
+		res.status(404).end()
+	}
+})
+
+
+
 const PORT = 3001
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
