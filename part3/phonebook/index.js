@@ -69,7 +69,13 @@ app.delete('/api/persons/:id', (req, res) => {
 	}
 })
 
-
+/* 3.5: make it possible to add entries with HTTP POST */
+app.post('/api/persons/', (req, res) => {
+	const post_obj = req.body
+	post_obj.id = Math.floor(Math.random() * 100000)
+	data.concat(post_obj)
+	res.json(post_obj)
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
