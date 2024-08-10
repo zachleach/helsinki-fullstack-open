@@ -1,6 +1,6 @@
 /* 2.13 extract code that handles backend into a separate module */
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:3001/api/persons'
 
 const getAll = () => {
 	return (

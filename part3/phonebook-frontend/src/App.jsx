@@ -37,10 +37,11 @@ const App = () => {
 	/* 2.11: the initial state of the application is fetched from json-server */
   const [phonebook, set_phonebook] = useState([]) 
 	useEffect(() => {
+		console.log('Render')
 		personService.getAll().then(data => {
 			set_phonebook(data)
 		})
-	}, [phonebook])
+	}, [])
 
 	/* 2.8: expand application to allow users to add phone numbers */
   const [number_input_field, set_number_input_field] = useState('')
