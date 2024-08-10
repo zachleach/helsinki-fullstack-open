@@ -2,11 +2,11 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 
+app.use(express.json())
+
 /* 3.9: make the backend work with the frontend */
 const cors = require('cors')
 app.use(cors())
-
-app.use(express.json())
 
 /* 3.7: add morgan middleware for logging using tiny configuration */
 app.use(morgan('tiny'))
